@@ -1,0 +1,31 @@
+git --version                                   => muestra la version
+--                                              => nombre completo 
+-                                               => abreviatura 
+git help                                        => guia de comandos 
+q                                               => quit - salir "por ejemplo en git --help"
+git config --global user.name                   => cambiar el nombre de usuario 
+git config --global user.email                  => cambiar el email del usuario
+git config --global -e                          => listar lo que se acaba de hacer del config
+a                                               => despues de entrar al config con a tenemos la posibilidad de editar 
+esc  :wq!                                       => despues de hacer los cambios se guardar precionando la tecla esc y escribiendo :wq! y luego enter 
+esc  :q!                                        => salir sin cambios 
+
+git config --global init.defaultBranch main     => configuracion para que el nombre por defecto al iniciar un repo sea main y no master
+git init [nombre_del_directorio]                => inicializa el repositorio local
+
+git status                                      => info de commits, rama donde me encuentro, archivos a los que no se dan seguimiento
+git add [nombre_archivo_o_carpeta]              => agrega un archivo o carpeta al stage 
+git add .                                       => agrega todo lo que esta en carpeta 
+git reset [nombre_archivo_o_carpeta]            => elimina del stage el rchivo o carpeta
+git commit -m "[descripcion]"                   => guarda los archivos a un commit y le da una descripcion   
+git log                                         => muestra los ultimos commits
+
+git config core.autocrlf true                   => 
+
+git checkout --.                                => regresa al commit anterior 
+
+git branch                                      => muestra las ramas que tiene 
+git branch -m master main                       => cambia el nombre de la rama master a main 
+
+
+
