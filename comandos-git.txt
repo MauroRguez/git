@@ -1,0 +1,188 @@
+command [-options(s)] [argument(s)]             => esta es la forma de escribir comandos 
+
+
+----------terminos basicos----------------------
+git --version                                   => muestra la version
+--                                              => nombre completo 
+-                                               => abreviatura 
+git help                                        => guia de comandos 
+q                                               => quit - salir "por ejemplo en git --help"
+------------------------------------------------
+
+----------configuraciones globales--------------
+git config                                      => muestra la lista de configuraciones 
+git config --list                               => muestra las configuraciones por defecto 
+git config --list --show-origin                 => muestra donde estan las configuraciones guardadas 
+git config --global user.name                   => cambiar el nombre de usuario 
+git config --global user.email                  => cambiar el email del usuario
+git config --global init.defaultBranch main     => configuracion para que el nombre por defecto al iniciar un repo sea main y no master
+git config --global -e                          => listar lo que se acaba de hacer del config
+git config --global alias.newalias "formacomun" => crear alias para comandos ya hechos de git
+    git config --global alias.s "status --short"=> cambio git status --short => git s
+git config core.autocrlf true                   => solo si aparece un warning que dice "LF will be replaced by CRLF in..."
+------------------------------------------------
+
+----------interacciones dentro de config--------
+a                                               => despues de entrar al config con a tenemos la posibilidad de editar user,defaultinit, alias, etc
+esc  :wq!                                       => despues de hacer los cambios se guardar precionando la tecla esc y escribiendo :wq! y luego enter 
+esc  :q!                                        => salir sin cambios 
+------------------------------------------------
+
+----------comunes diferentes acciones-----------
+git init [nombre_del_directorio]                => inicializa el repositorio local
+git status                                      => info de commits, rama donde me encuentro, archivos a los que no se dan seguimiento
+git status --short                              => info resumida de los commits
+git show v1.0.0                                 => muestra la informacion del commit y tag 
+git commit -m "descripcion"                     => guarda los archivos a un commit y le da una descripcion   
+git commit -am "nombre"                         => ejecuta el add y commit  -  solo funciona si ya tiene un commit hecho
+git log                                         => muestra los ultimos commits
+git log --oneline                               => resumen de git log
+git log [archivo.ext]                           => muestra el historial del archivo 
+git log [archivo.ext] --status                  => refleja los cambios especificos en el archivo 
+git checkout --.                                => regresa al commit anterior 
+git branch                                      => muestra las ramas que tiene 
+git branch -m master main                       => cambia el nombre de la rama master a main 
+git diff                                        => comparar diferencias
+git diff --stage                                => compara con el stage 
+git commit --amend                              => puedo editar manual el comit, titulo y demas del commit anterior, para esto es necesario tener hecho el git add
+git commit --amend -m "Nuevo mensaje corregido" => actualizar el mensaje del ultimo commit
+git push ....                                   => envia al repositorio remoto 
+git pull ....                                   => trae del repositorio remoto 
+------------------------------------------------
+
+----------git reset-----------------------------
+--soft                                          => para que no sea destructuvo, mantenga todos los cambios 
+--hard                                          => elimina "destructivo"
+^                                               => movernos al commit anterior
+                    "git reset volvemos al pasado sin la posibilidad de volver al futuro, borramos el historial y se trabaja usando --hard o --soft"
+git reset [nombre_archivo_o_carpeta]            => elimina del stage el rchivo o carpeta
+git reset --soft HEAD^                          => agregar nueva informacion al comit anterior
+git reset --soft HEAD^3                         => agregar nueva informacion a n # de commits antes 
+git reset --soft numeroHash                     => saca del stage los cambios de este commit 
+git reset --mixed numeroHash                    => saca todo del stage y deja listo para crear nuevos conmmits
+git reset --hard                                => sin especificar nada despues de --hard es similar al checkout --.
+git reset --hard numeroHash                     => regresa el repositorio al hash de manera destructiva
+git reflog                                      => referencias de todo lo sucedido en orden cronologico
+------------------------------------------------
+
+----------formas de hacer el git add------------
+git add [nombre_archivo_o_carpeta]              => agrega un archivo o carpeta al stage 
+git add .                                       => agrega todo lo que esta pendiente 
+git add [*.html]                                => agrega todos los que son con extension .html
+git add [carpeta/*.extension]                   => especifico la carpeta y la extension de los archivos que quiero 
+git add [carpeta/.gitkeep]                      => agrega esta carpeta con este archivo ideal para carpetas vacias
+git add [carpeta/]                              => todo lo que este dentro de este directorio incluido subdirectorios
+------------------------------------------------
+
+----------mover o renombrar---------------------
+git mv [new-name.ext] [new-name.ext]            => en este caso esta cambiando el nombre del archivo aunque mv es de mover
+------------------------------------------------
+
+----------eliminar------------------------------
+git rm [file.ext]                               => se elimina pero queda en el stage
+git rm --cached                                 => elimina los archivos del repositorio local y del area de staging, pero los mantiene en nuestro disco duro, Basicamente le dice a git que deje de trackear el historial de cambios de estos archivos, por lo que pasaran a un estado untracked 
+git rm --force                                  =>elimina los archivos de git y del disco duro. Git siempre guarda todo, por lo que podemos acceder al registro de la existencia de los archivos, de modo que podremos recuperarlos si es necesario
+git reset
+------------------------------------------------
+
+----------ramas --------------------------------
+git branch                                      => muestra todas las ramas
+git branch nombre-rama                          => crear una nueva rama
+git checkout nombre-rama                        => se mueve a la rama mencionada
+git checkout -b nombre-rama                     => crea y se mueve de una vez a la rama, es decir es la union de branch y checkout 
+git merge nombre-rama-a-marge                   => trae los cambios de la rama mensionada a la rama en que estoy 
+git branch -d rama-a-eliminar                   => elimina la rama mencionada
+git branch -d rama-a-eliminar -f                => cuando la rama no ha hecho merge con ninguna otra lanza una advertensia, con -f se forza a que se elimine 
+------------------------------------------------
+
+----------crear tags----------------------------
+git tag nombre-o-asignacion                     => los tags se pueden crear con nombres como "super-release" o con asignaciones semanticas como "0.0.1" ....
+git tag                                         => muestra todos los tags existentes 
+git tag -d nombre-tag                           => elimina el tag que se nombre
+git tag -a v1.0.6 -m "mensaje"                  => -a es de anotation es una anotacion, despues se pone el nombre o asignacion; -m es de mensaje y se pone dentro de las comillas, sino se pone el mensaje git entra en modo escritura para dejar el mensaje 
+git tag -a v1.0.0 hash-commit -m "version alfa" => si quiero agregar un tag a un commit que tal vez este atras en el tiempo y que no se habia hecho 
+    explicacion de enumeraciones 
+        primer numero           => version y cambios importantes y que puede tener breack-chain es decir cambios que rompen el codigo anterior 
+        segundo numero          => se añaden nuevas funcionalidades o cosas importantes 
+        tercer numero           => es cuando se encuentran bugs que deben ser arreglados 
+git show v1.0.0                                 => muestra la informacion del commit y tag 
+------------------------------------------------
+
+----------Stash---------------------------------
+git stash                                       => crea un stash, es tomar todo lo que no se le habia hecho commit y lo guarda como en una bobeda 
+git stash save "nombre a asignar"               => agrega al stash con un nombre identificador 
+git stash list                                  => lista de stashes
+git stash list --stat                           => lista de stash con detalles mas claros 
+git stash pop                                   => toma el ultimo stash que se tiene guardado y lo borra del stash, es similar a tomar stash como si fuera un array en sus posiciones 
+git stash clear                                 => borra todos los stash
+git stash apply stash@{n}                       => aplica el n-esimo stash
+git stash drop stash@{n}                        => elimina el n-esimo stash
+git stash drop                                  => elimina el primer stash
+git stash show stash@{n}                        => muestra los detalles del n-esimo stash 
+------------------------------------------------
+
+----------rebase--------------------------------
+git rebase rama-a-aplicar                       => toma los commits de la rama donde estoy desde la separacion y los pone como siguientes commits de la rama que mencione 
+    un EJEMPLO seria si tengo en mi rama frontend commits pero tambien en la master han existido cambios y quiero traer todos esos cambios a mi rama frontend 
+    git rebase master       => desde mi rama frontend hago esto y el toma los commits del frontend desde la separacion de la rama main y los pone delante del ultimo commit de la rama main, es decir ya todos los cambios de la main estan en mi frontend 
+    git checkount main      => para pasar a mi main y posterior hacer el marge 
+    git merge frontend      => entregara como respuesta Fast-forward y esto significa que todo a salido bien y ahora la main tiene todos los commits de frontend 
+git rebase -i HEAD~(n)                          => forma de ingresar al rebase interactivo y HEAD~(n) refiere al numero de commits que quieren usar
+    dentro del menu interactivo hay muchas opciones 
+    p, pick = es el nombre por defecto y se debe dejar si no se quiere cambiar nada en este commit 
+    r, reword = editar el mensaje del commit 
+    e, edit = se podran hacer ediciones al codigo y cualquier archivo para terminar esto se terminaria con git rebase --continue
+    s, squash = unifica los commits a los cuales les ponga esta opcion con el ultimo que no la tenga 
+------------------------------------------------
+
+----------gitignore-----------------------------
+[folder/]                                       => todo lo que esta dentro de la carpeta
+*.log                                           => todo lo que sean con la extension .log 
+[folder/*.txt]                                  => todo los .txt que esten dentro del folder especificado 
+------------------------------------------------
+
+-----------conservar una carpeta vacia----------
+[folder/.gitkeep]                               => si se necesita conservar una carpeta que estara vacia se crea la carpeta y el archivo .gitkeep
+------------------------------------------------
+
+-----------letras al lado del archivo----------- 
+U = untrack
+A = add stage
+D = delete 
+M = modify - "esta en el stage"
+R = Rename 
+! = Conflict 
+------------------------------------------------ 
+
+----------alias comunes y utiles Reales---------
+guia de commits en modo de mapa hecho por fernando herrera = git lg
+    git config --global alias.lg "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all"
+------------------------------------------------
+
+
+-------------------------------------------------------------------------GITHUB----------------------------------------------------------------------------------
+
+git remote add origin https://github.com/santiscano/curso-git-y-github
+    git remote  => indicativo de opcion de git para repositorios remotos
+    add         => orden para agregar un repositorio remoto 
+    origin      => nombre para el repositorio remoto "puede ser cualquier nombre"
+    url         => direccion del repo remoto (https o ssh)
+
+------------------------------------------------
+git remote -v                                   => muestra la lista de los repositorios remotos que se tienen agregados 
+git push -u origin master                       => -u nos ayuda a que la proxima no necesitemos especificar la rama los siguientes 2 son el nombre del repo y la rama del remoto 
+
+
+
+
+
+
+
+----------------------------------------------------------------------GITOSIS-------------------------------------------------------------------------------------
+¿Que es gitosis?                    => https://wiki.archlinux.org/title/gitosis#:~:text=Gitosis%20is%20a%20tool%20which,system%20accounts%20on%20the%20server.
+Instalación y configuración         => https://github.com/res0nat0r/gitosis
+Guardar contraseña de GitHub en la máquina WINDOWS      => https://docs.github.com/es/get-started/getting-started-with-git/caching-your-github-credentials-in-git#platform-windows
+Guardar usuario y contraseña en la máquina LINUX        => https://docs.github.com/es/get-started/getting-started-with-git/caching-your-github-credentials-in-git#platform-linux
+    Para usuario de OSx 10.0 o superior, el KeyChain se los maneja automáticamente
+
+
