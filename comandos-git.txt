@@ -1,6 +1,5 @@
 command [-options(s)] [argument(s)]             => esta es la forma de escribir comandos 
 
-
 ----------terminos basicos----------------------
 git --version                                   => muestra la version
 --                                              => nombre completo 
@@ -20,6 +19,7 @@ git config --global -e                          => listar lo que se acaba de hac
 git config --global alias.newalias "formacomun" => crear alias para comandos ya hechos de git
     git config --global alias.s "status --short"=> cambio git status --short => git s
 git config core.autocrlf true                   => solo si aparece un warning que dice "LF will be replaced by CRLF in..."
+git config --global pull.ff only                => configuracion para definir la tecnica de uso del pull, existen otras estrategias como pull.rebase false o true 
 ------------------------------------------------
 
 ----------interacciones dentro de config--------
@@ -35,6 +35,7 @@ git status --short                              => info resumida de los commits
 git show v1.0.0                                 => muestra la informacion del commit y tag 
 git commit -m "descripcion"                     => guarda los archivos a un commit y le da una descripcion   
 git commit -am "nombre"                         => ejecuta el add y commit  -  solo funciona si ya tiene un commit hecho
+git commit -am "Fixes #n: Comentario commit"    => forma de cerrar un issues directamente desde un commit 
 git log                                         => muestra los ultimos commits
 git log --oneline                               => resumen de git log
 git log [archivo.ext]                           => muestra el historial del archivo 
@@ -47,7 +48,24 @@ git diff --stage                                => compara con el stage
 git commit --amend                              => puedo editar manual el comit, titulo y demas del commit anterior, para esto es necesario tener hecho el git add
 git commit --amend -m "Nuevo mensaje corregido" => actualizar el mensaje del ultimo commit
 git push ....                                   => envia al repositorio remoto 
-git pull ....                                   => trae del repositorio remoto 
+git pull ....                                   => trae del repositorio remoto
+git pull --all                                  => trae todas las ramas del remoto
+------------------------------------------------
+
+----------verbos commits------------------------
+feat                                            => Una nueva característica para el usuario.
+fix                                             => Arregla un bug que afecta al usuario.
+perf                                            => Cambios que mejoran el rendimiento del sitio.
+build                                           => Cambios en el sistema de build, tareas de despliegue o instalación.
+ci                                              => Cambios en la integración continua.
+docs                                            => Cambios en la documentación.
+refactor                                        => Refactorización del código como cambios de nombre de variables o funciones.
+style                                           => Cambios de formato, tabulaciones, espacios o puntos y coma, etc; no afectan al usuario.
+test                                            => Añade tests o refactoriza uno existente.
+
+EJEMPLOS: 
+    feat(backend): add filter for cars
+    fix(web): remove wrong color
 ------------------------------------------------
 
 ----------git reset-----------------------------
@@ -81,25 +99,29 @@ git mv [new-name.ext] [new-name.ext]            => en este caso esta cambiando e
 ----------eliminar------------------------------
 git rm [file.ext]                               => se elimina pero queda en el stage
 git rm --cached                                 => elimina los archivos del repositorio local y del area de staging, pero los mantiene en nuestro disco duro, Basicamente le dice a git que deje de trackear el historial de cambios de estos archivos, por lo que pasaran a un estado untracked 
-git rm --force                                  =>elimina los archivos de git y del disco duro. Git siempre guarda todo, por lo que podemos acceder al registro de la existencia de los archivos, de modo que podremos recuperarlos si es necesario
-git reset
+git rm --force                                  => elimina los archivos de git y del disco duro. Git siempre guarda todo, por lo que podemos acceder al registro de la existencia de los archivos, de modo que podremos recuperarlos si es necesario
+git reset                                       => 
 ------------------------------------------------
 
 ----------ramas --------------------------------
-git branch                                      => muestra todas las ramas
+git branch                                      => muestra todas las ramas en las que he participado o creado
 git branch nombre-rama                          => crear una nueva rama
 git checkout nombre-rama                        => se mueve a la rama mencionada
 git checkout -b nombre-rama                     => crea y se mueve de una vez a la rama, es decir es la union de branch y checkout 
 git merge nombre-rama-a-marge                   => trae los cambios de la rama mensionada a la rama en que estoy 
 git branch -d rama-a-eliminar                   => elimina la rama mencionada
 git branch -d rama-a-eliminar -f                => cuando la rama no ha hecho merge con ninguna otra lanza una advertensia, con -f se forza a que se elimine 
+git branch --all                                => muestra las ramas que vienen del repositorio remoto pero que no he participado de ellas 
+git checkout rama-oculta/remota                 => hace un track con la rama remota, es decir muestra los cambios de esa rama que estaban en el repo 
+git remote prune origin                         => actualiza las referencias y las que ya no existen las elimina, estas referencias son las que se ven en el --all  
+                        => recuperar la rama eliminada
 ------------------------------------------------
 
 ----------crear tags----------------------------
 git tag nombre-o-asignacion                     => los tags se pueden crear con nombres como "super-release" o con asignaciones semanticas como "0.0.1" ....
 git tag                                         => muestra todos los tags existentes 
 git tag -d nombre-tag                           => elimina el tag que se nombre
-git tag -a v1.0.6 -m "mensaje"                  => -a es de anotation es una anotacion, despues se pone el nombre o asignacion; -m es de mensaje y se pone dentro de las comillas, sino se pone el mensaje git entra en modo escritura para dejar el mensaje 
+git tag -a v1.0.6 -m "mensaje"                  => -a es una anotacion, despues se pone el nombre o asignacion; -m es de mensaje y se pone dentro de las comillas, sino se pone el mensaje git entra en modo escritura para dejar el mensaje 
 git tag -a v1.0.0 hash-commit -m "version alfa" => si quiero agregar un tag a un commit que tal vez este atras en el tiempo y que no se habia hecho 
     explicacion de enumeraciones 
         primer numero           => version y cambios importantes y que puede tener breack-chain es decir cambios que rompen el codigo anterior 
@@ -171,14 +193,42 @@ git remote add origin https://github.com/santiscano/curso-git-y-github
 ------------------------------------------------
 git remote -v                                   => muestra la lista de los repositorios remotos que se tienen agregados 
 git push -u origin master                       => -u nos ayuda a que la proxima no necesitemos especificar la rama los siguientes 2 son el nombre del repo y la rama del remoto 
+git push --tags                                 => despliega los tags que tenga en el repositorio local
+git pull origin main                            => traer la ultima version del repositorio remoto 
+git push --set-upstream origin rama-nueva       => creo la nueva rama remota y la vinculo a la rama local
+git fetch                                       => trae los otros commits que existan en el repo remoto pero el head sigue apuntando a mi ultimo commit del local 
+------------------------------------------------
+
+------------dentro de un archivo en github------
+raw                                             => muestra el archivo en modo txt 
+blame                                           => dice que cambios a sufrido el archivo desde que fue incorporado
+------------------------------------------------
+
+----------pull a repositorios hechos con fork---
+git remote add upstream url                     => creamos un git remote del repo al que se le hizo el fork
+git pull upstream                               => bajar todos los cambios del repositorio principal
+------------------------------------------------
+
+----------flujos de trabajo nombres ramas-------
+main                                            => versiones estables del sofware
+develop                                         => nuevas caracteristicas, sale de la rama main 
+feature-x                                       => cada nueva caracteristica se crea con un feature y sale de la rama develop y al completarlo regresa a la develop 
+release-x                                       => se crea cuando se van a publicar nuevas versiones y se tienen que solucionar bugs o crear documentacion, se crea desde develop y se integra con la main y tambien con la develop 
+hotfix-x                                        => es para solucionar bugs criticos, sale de develop y se integra a main y develop
+------------------------------------------------
 
 
+----------links documentacion-------------------
+recomendacion flujo ramas                       => https://www.markdowntutorial.com/
+------------------------------------------------
 
-
-
-
+----------github pages para usuario-------------
+Santiscano.github.io                            => crear repositorio con el nombre de usuario
+al crear entrar en settings - pages - y configurarlo como theme o desde una carpeta del repositorio
+------------------------------------------------
 
 ----------------------------------------------------------------------GITOSIS-------------------------------------------------------------------------------------
+
 ¿Que es gitosis?                    => https://wiki.archlinux.org/title/gitosis#:~:text=Gitosis%20is%20a%20tool%20which,system%20accounts%20on%20the%20server.
 Instalación y configuración         => https://github.com/res0nat0r/gitosis
 Guardar contraseña de GitHub en la máquina WINDOWS      => https://docs.github.com/es/get-started/getting-started-with-git/caching-your-github-credentials-in-git#platform-windows
@@ -186,3 +236,10 @@ Guardar usuario y contraseña en la máquina LINUX        => https://docs.github
     Para usuario de OSx 10.0 o superior, el KeyChain se los maneja automáticamente
 
 
+----------------------------------------------------------------------GIST-------------------------------------------------------------------------------------
+CONECTARSE DE GITHUB-GIST A VS-CODE
+crear token de acceso en github.com/santiscano  -  settings  -  developer settings  -  personal access token  -  generate new token  -  en permisos solo gist  - generar token 
+instalar en vs-code   -   ctrl-shift-p  -> gist:select profile  -> pegar token  - [enter]  - [nombre-opcional]
+
+USAR GIST
+ctrl-shift-p  -  gist: insert text from gist file  - buscar gist que se quiere
