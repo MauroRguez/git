@@ -94,6 +94,7 @@ git add [carpeta/]                              => todo lo que este dentro de es
 
 ----------mover o renombrar---------------------
 git mv [new-name.ext] [new-name.ext]            => en este caso esta cambiando el nombre del archivo aunque mv es de mover
+git remote set-url [origin] newurl              => cambia la direccion a la que apunta el origen por la nueva url en este ejemplo origin se cambia
 ------------------------------------------------
 
 ----------eliminar------------------------------
@@ -243,3 +244,9 @@ instalar en vs-code   -   ctrl-shift-p  -> gist:select profile  -> pegar token  
 
 USAR GIST
 ctrl-shift-p  -  gist: insert text from gist file  - buscar gist que se quiere
+
+
+------------------------crear organizacion---------------------------
+en la barra de navbar - + - new organization - free - 
+------------transferir repositorio personal a organizacion-------
+settings  ->  al final del repo la opcion de danger zone ->  transfer ownership  -> transfer
