@@ -73,7 +73,7 @@ EJEMPLOS:
 --hard                                          => elimina "destructivo"
 ^                                               => movernos al commit anterior
                     "git reset volvemos al pasado sin la posibilidad de volver al futuro, borramos el historial y se trabaja usando --hard o --soft"
-git reset [nombre_archivo_o_carpeta]            => elimina del stage el rchivo o carpeta
+git reset [nombre_archivo_o_carpeta]            => elimina del stage el archivo o carpeta
 git reset --soft HEAD^                          => agregar nueva informacion al comit anterior
 git reset --soft HEAD^3                         => agregar nueva informacion a n # de commits antes 
 git reset --soft numeroHash                     => saca del stage los cambios de este commit 
@@ -146,11 +146,12 @@ git stash show stash@{n}                        => muestra los detalles del n-es
 
 ----------rebase--------------------------------
 git rebase rama-a-aplicar                       => toma los commits de la rama donde estoy desde la separacion y los pone como siguientes commits de la rama que mencione 
-    un EJEMPLO seria si tengo en mi rama frontend commits pero tambien en la master han existido cambios y quiero traer todos esos cambios a mi rama frontend 
-    git rebase master       => desde mi rama frontend hago esto y el toma los commits del frontend desde la separacion de la rama main y los pone delante del ultimo commit de la rama main, es decir ya todos los cambios de la main estan en mi frontend 
+    un EJEMPLO seria si tengo en mi rama frontend commits pero tambien en la main han existido cambios y quiero traer todos esos cambios a mi rama frontend 
+    git rebase main         => desde mi rama frontend hago esto y el toma los commits del frontend desde la separacion de la rama main y los pone delante del ultimo commit de la rama main, es decir ya todos los cambios de la main estan en mi frontend 
     git checkount main      => para pasar a mi main y posterior hacer el marge 
     git merge frontend      => entregara como respuesta Fast-forward y esto significa que todo a salido bien y ahora la main tiene todos los commits de frontend 
 git rebase -i HEAD~(n)                          => forma de ingresar al rebase interactivo y HEAD~(n) refiere al numero de commits que quieren usar
+git pull --rebase origin <nombre_rama>          => reorganizar tus cambios locales sobre los cambios remotos. Esto puede generar conflictos si hay cambios en la misma parte del código
     dentro del menu interactivo hay muchas opciones 
     p, pick = es el nombre por defecto y se debe dejar si no se quiere cambiar nada en este commit 
     r, reword = editar el mensaje del commit 
