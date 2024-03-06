@@ -12,7 +12,7 @@ q                                               => quit - salir "por ejemplo en 
 git config                                      => muestra la lista de configuraciones 
 git config --list                               => muestra las configuraciones por defecto 
 git config --list --show-origin                 => muestra donde estan las configuraciones guardadas 
-git config --global user.name                   => cambiar el nombre de usuario 
+git config --global user.name                   => cambiar el nombre de usuario
 git config --global user.email                  => cambiar el email del usuario
 git config --global init.defaultBranch main     => configuracion para que el nombre por defecto al iniciar un repo sea main y no master
 git config --global -e                          => listar lo que se acaba de hacer del config
@@ -48,6 +48,7 @@ git diff --stage                                => compara con el stage
 git commit --amend                              => puedo editar manual el comit, titulo y demas del commit anterior, para esto es necesario tener hecho el git add
 git commit --amend -m "Nuevo mensaje corregido" => actualizar el mensaje del ultimo commit
 git push ....                                   => envia al repositorio remoto 
+git push --force ....                           => envia al repositorio remoto 
 git pull ....                                   => trae del repositorio remoto
 git pull --all                                  => trae todas las ramas del remoto
 ------------------------------------------------
