@@ -118,10 +118,14 @@ git checkout rama-oculta/remota                 => hace un track con la rama rem
 git remote prune origin                         => actualiza las referencias y las que ya no existen las elimina, estas referencias son las que se ven en el --all  
                         => recuperar la rama eliminada
 
+git fetch                                        => trae todas las ramas remotas
 git fetch <remote>                               => cree una rama local apartir de la rama remota, primero hay que hacer fetch para traer todas las ramas existentes en remoto
+git branch -r                                    => verificar las ramas remotas que tengo
 git checkout -b <branchName> <remote/branchName> => luego este comando para crear y traer los cambios un ejemplo seria 
     git fetch origin
     git checkout -b dev origin/dev
+--- otra opcion directo seria: ----------------
+git fetch origin <remote/branchName>:<localBranchName> => trae la rama y crea una nueva apartir de con el nombre indicado
 ------------------------------------------------
 
 ----------crear tags----------------------------
